@@ -1,28 +1,27 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-st.title('나의 에니어그램은 무엇일까?')
 import numpy as np
 
 # 질문 리스트 (18가지)
 questions = [
     "나는 항상 더 나은 방법을 찾으려고 노력한다.",
-    "나는 다른 사람들을 돕는 것을 좋아한다.",
-    "나는 목표를 달성하기 위해 열심히 노력한다.",
-    "나는 나만의 특별한 스타일을 가지고 있다.",
-    "나는 항상 새로운 지식을 추구한다.",
-    "나는 신뢰할 수 있는 친구가 되기를 원한다.",
-    "나는 항상 새로운 경험을 찾는다.",
-    "나는 내 의견을 강하게 주장한다.",
-    "나는 평화를 유지하기 위해 노력한다.",
-    "나는 작은 세부사항에도 신경을 쓴다.",
     "나는 규칙과 절차를 중요하게 생각한다.",
-    "나는 사람들과 깊이 있는 대화를 즐긴다.",
-    "나는 경쟁에서 승리하는 것을 좋아한다.",
-    "나는 독창적인 아이디어를 내는 것을 즐긴다.",
-    "나는 문제를 해결하기 위해 다양한 접근법을 시도한다.",
-    "나는 충성심이 강하고 믿음직한 사람이다.",
-    "나는 항상 낙관적이고 긍정적인 태도를 유지한다.",
-    "나는 위험을 감수하는 것을 두려워하지 않는다."
+    "나는 작은 세부사항에도 신경을 쓴다.",
+    "나는 높은 도덕적 기준을 가지고 있다.",
+    "나는 완벽을 추구하는 경향이 있다.",
+    "나는 다른 사람들에게 높은 기대를 가진다.",
+    "나는 비판을 잘 받아들인다.",
+    "나는 효율성을 중요하게 생각한다.",
+    "나는 계획을 세우고 따르는 것을 좋아한다.",
+    "나는 다른 사람들을 지도하는 것을 즐긴다.",
+    "나는 책임감을 강하게 느낀다.",
+    "나는 일관성을 중요하게 생각한다.",
+    "나는 공정성을 중요하게 생각한다.",
+    "나는 항상 옳은 결정을 내리려고 노력한다.",
+    "나는 실수를 용납하지 않는 경향이 있다.",
+    "나는 항상 자기 개선을 추구한다.",
+    "나는 규칙을 어기는 것을 싫어한다.",
+    "나는 항상 최선을 다하려고 노력한다."
 ]
 
 # 애니어그램 유형별 점수 초기화
@@ -38,6 +37,19 @@ score = {
     '9': 0
 }
 
+# 애니어그램 유형별 질문 매핑 (예시)
+question_mapping = {
+    '1': [0, 2, 10],
+    '2': [1, 11],
+    '3': [2, 12],
+    '4': [3, 13],
+    '5': [4, 14],
+    '6': [5, 15],
+    '7': [6, 16],
+    '8': [7, 17],
+    '9': [8]
+}
+
 # 스트림릿 앱 설정
 st.title("애니어그램 성격 테스트")
 st.write("다음 질문에 답변해 주세요:")
@@ -47,25 +59,19 @@ for i, question in enumerate(questions):
     st.write(f"{i+1}. {question}")
     answer = st.radio("", ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"], key=f"q{i}")
 
-    # 점수 계산 (간단한 예시로 각 질문마다 특정 유형에 점수를 부여)
-    if i in [0, 9, 10]:
-        score['1'] += answer == "매우 그렇다"
-    elif i in [1, 11]:
-        score['2'] += answer == "매우 그렇다"
-    elif i in [2, 12]:
-        score['3'] += answer == "매우 그렇다"
-    elif i in [3, 13]:
-        score['4'] += answer == "매우 그렇다"
-    elif i in [4, 14]:
-        score['5'] += answer == "매우 그렇다"
-    elif i in [5, 15]:
-        score['6'] += answer == "매우 그렇다"
-    elif i in [6, 16]:
-        score['7'] += answer == "매우 그렇다"
-    elif i in [7, 17]:
-        score['8'] += answer == "매우 그렇다"
-    elif i in [8]:
-        score['9'] += answer == "매우 그렇다"
+    # 점수 계산
+    for key, indices in question_mapping.items():
+        if i in indices:
+            if answer == "매우 그렇다":
+                score[key] += 5
+            elif answer == "그렇다":
+                score[key] += 4
+            elif answer == "보통이다":
+                score[key] += 3
+            elif answer == "그렇지 않다":
+                score[key] += 2
+            elif answer == "전혀 그렇지 않다":
+                score[key] += 1
 
 # 결과 계산
 if st.button("결과 보기"):
@@ -88,7 +94,7 @@ if st.button("결과 보기"):
     st.write(f"당신의 애니어그램 유형은: 유형 {', '.join(result_type)}")
 
     for r_type in result_type:
-        st.write(f"{results_info[r_type][0]}")
+        st.write(f"**{results_info[r_type][0]}**")
         st.write(f"- **어울리는 색깔:** {results_info[r_type][1]}")
         st.write(f"- **스타일:** {results_info[r_type][2]}")
         st.write(f"- **잘 맞는 친구:** {results_info[r_type][3]}")
@@ -96,7 +102,7 @@ if st.button("결과 보기"):
 
     # 점수를 퍼센트로 변환
     total_questions = len(questions)
-    percent_score = {key: (value / total_questions) * 100 for key, value in score.items()}
+    percent_score = {key: (value / (5 * total_questions)) * 100 for key, value in score.items()}
 
     # 방사형 그래프 그리기
     labels = list(percent_score.keys())

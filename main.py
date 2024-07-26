@@ -1,4 +1,3 @@
-pip install streamlit matplotlib
 import streamlit as st
 import matplotlib.pyplot as plt
 st.title('나의 에니어그램은 무엇일까?')

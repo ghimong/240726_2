@@ -100,4 +100,3 @@ if st.button("결과 보기"):
 # 스트림릿 앱 실행
 if __name__ == "__main__":
     st.run()
-streamlit run app.py

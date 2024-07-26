@@ -1,7 +1,7 @@
 pip install streamlit matplotlib
 import streamlit as st
 import matplotlib.pyplot as plt
-
+st.title('나의 에니어그램은 무엇일까?')
 # 질문 리스트
 questions = [
     "나는 항상 더 나은 방법을 찾으려고 노력한다.",
